@@ -14,7 +14,17 @@ class DataManager {
       }
     ];
     this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
+    this.currentQuizType;
   }
+
+  setCurrentQuizType(qt) {
+    this.currentQuizType = qt;
+  }
+
+  getCurrentQuizType() {
+    return this.currentQuizType;
+  }
+
   getUserScores() {
     return this.userQuizScores;
   }
