@@ -8,6 +8,23 @@ class CreateController {
   javaButtonAction() {
     dataManager.setCurrentQuizType("Java");
   }
+
+  addButtonAction() {
+    let question = "";
+    let answers = ["", "", "", ""];
+    createViewManager.generateQuestion(question, answers);
+  }
+
+  saveButtonAction(quizType) {
+    //model
+    dataManager.removeAllQuestions(quizType);
+    dataManager.removeAllAnswers(quizType);
+    dataManager.setQuestions(createViewManager.getQuestionsFromView());
+    // dataManager.setAnswers(getAnswersFromView());
+    // dataManager.setDifficulty(getDifficultyFromView());
+    // dataManager.setLocalStorage();
+    // dataManager.populateQuestionsTable();
+  }
 }
 
 let createController = new CreateController();

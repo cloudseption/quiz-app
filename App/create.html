@@ -40,7 +40,7 @@
               id="jsButton"
               class="btn"
               style="background-color:coral"
-              onclick="jsButtonAction()"
+              onclick="createController.jsButtonAction()"
             >
               <p style="color:whitesmoke">JavaScript</p>
             </button>
@@ -48,11 +48,30 @@
               id="javaButton"
               class="btn"
               style="background-color: cornflowerblue"
-              onclick="javaButtonAction()"
+              onclick="createController.javaButtonAction()"
             >
               <p style="color:whitesmoke">Java</p>
             </button>
           </div>
+        </div>
+        <div id="questions" class="container-fluid"></div>
+        <div id="questionsButtonContainer" style="display: inline-block">
+          <button
+            id="addButton"
+            class="btn"
+            style="background-color:#82beb0"
+            onclick="createController.addButtonAction()"
+          >
+            <p style="color:whitesmoke">Add Question</p>
+          </button>
+          <button
+            id="saveButton"
+            class="btn"
+            style="background-color: #82beb0"
+            onclick="createController.saveButtonAction()"
+          >
+            <p style="color:whitesmoke">Save</p>
+          </button>
         </div>
       </div>
     </div>

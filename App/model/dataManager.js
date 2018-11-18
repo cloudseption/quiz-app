@@ -1,6 +1,12 @@
 class DataManager {
   constructor() {
     console.log("Constructing dataManager");
+
+    this.currentQuizType;
+    this.jsQuizObject = {
+      questions: [],
+      answers: {}
+    };
     this.userQuizScores = [
       {
         QuizType: "JavaScript",
@@ -14,7 +20,6 @@ class DataManager {
       }
     ];
     this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
-    this.currentQuizType;
   }
 
   setCurrentQuizType(qt) {
@@ -27,6 +32,14 @@ class DataManager {
 
   getUserScores() {
     return this.userQuizScores;
+  }
+
+  removeAllJavaScriptQuestions() {
+    this.jsQuizObject.questions = [];
+  }
+
+  removeAllJavaScriptAnswers() {
+    this.jsQuizObject.answers = {};
   }
 
   getUserScoresFromDB() {
