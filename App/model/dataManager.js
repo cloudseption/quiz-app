@@ -1,5 +1,6 @@
-class dataManager {
+class DataManager {
   constructor() {
+    console.log("Constructing dataManager");
     const userQuizScores = [
       {
         QuizType: "JavaScript",
