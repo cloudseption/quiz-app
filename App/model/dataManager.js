@@ -1,7 +1,7 @@
 class DataManager {
   constructor() {
     console.log("Constructing dataManager");
-    const userQuizScores = [
+    this.userQuizScores = [
       {
         QuizType: "JavaScript",
         QuizCreator: "testuser@hotmail.com",
@@ -9,13 +9,29 @@ class DataManager {
       },
       {
         QuizType: "JavaScript",
-        QuizCreator: "testuser@hotmail.com",
+        QuizCreator: "testuser2@hotmail.com",
         Score: "90"
       }
     ];
+    this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
+  }
+  getUserScores() {
+    return this.userQuizScores;
+  }
 
-    let getUserScores = () => {
-      return userQuizScores;
-    };
+  getUserScoresFromDB() {
+    let scoreEndPoint = this.api + "/user/score/";
+    let responseObject = [];
+    $.ajax({
+      type: "GET",
+      url: scoreEndPoint,
+      headers: { AppToken: "successToken", Userid: "jasonhuang16@hotmail.com" }
+    }).then(function(data) {
+      console.log("get success data: ", data);
+      responseObject = data;
+    });
+    return responseObject;
   }
 }
+
+let dataManager = new DataManager();

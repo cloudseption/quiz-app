@@ -15,8 +15,8 @@
     <script src="./aws/config.js"></script>
     <script src="./aws/cognito-auth.js"></script>
     <script src="model/dataManager.js"></script>
-    <script src="view/homeViewManager.js"></script>
-    <script src="controller/homeController.js"></script>
+    <script src="view/createViewManager.js"></script>
+    <script src="controller/createController.js"></script>
   </head>
   <body style="background-color:#82beb0 ">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -24,27 +24,16 @@
         <div class="navbar-header">
           <a class="navbar-brand" href="./home.html">Home</a>
           <a class="navbar-brand" href="./create.html">Quiz Creator</a>
-          <a class="navbar-brand" href="take.html">Take a Quiz</a>
+          <a class="navbar-brand" href="./take.html">Take a Quiz</a>
         </div>
       </div>
     </nav>
 
     <div class="container center" style="margin-top: 50px">
       <h1 id="welcomeUser" style="text-align: center;color: whitesmoke">
-        Welcome, "getUserEmail()"
+        Create a quiz
       </h1>
-      <div class="jumbotron" style="background-color: #BED7D1">
-        <table class="table table-condensed">
-          <thead>
-            <tr>
-              <th>Quiz Type</th>
-              <th>Creator</th>
-              <th>Score</th>
-            </tr>
-          </thead>
-          <tbody id="scoreTableBody"></tbody>
-        </table>
-      </div>
+      <div class="jumbotron" style="background-color: #BED7D1"></div>
     </div>
   </body>
 </html>
