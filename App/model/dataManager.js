@@ -3,9 +3,15 @@ class DataManager {
     console.log("Constructing dataManager");
 
     this.currentQuizType;
-    this.jsQuizObject = {
-      questions: [],
-      answers: {}
+    this.quizObject = {
+      JavaScript: {
+        questions: [],
+        answers: {}
+      },
+      Java: {
+        questions: [],
+        answers: {}
+      }
     };
     this.userQuizScores = [
       {
@@ -22,10 +28,6 @@ class DataManager {
     this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
   }
 
-  setCurrentQuizType(qt) {
-    this.currentQuizType = qt;
-  }
-
   getCurrentQuizType() {
     return this.currentQuizType;
   }
@@ -34,12 +36,29 @@ class DataManager {
     return this.userQuizScores;
   }
 
-  removeAllJavaScriptQuestions() {
-    this.jsQuizObject.questions = [];
+  getQuizObject() {
+    return this.quizObject;
   }
 
-  removeAllJavaScriptAnswers() {
-    this.jsQuizObject.answers = {};
+  setCurrentQuizType(qt) {
+    this.currentQuizType = qt;
+  }
+
+  setQuestions(quiztype, questionsList) {
+    console.log(this.quizObject);
+    this.quizObject[quiztype].questions = questionsList;
+  }
+
+  setAnswers(quiztype, answerObject) {
+    this.quizObject[quiztype].answers = answerObject;
+  }
+
+  removeAllQuestions(quiztype) {
+    this.quizObject[quiztype].questions = [];
+  }
+
+  removeAllAnswers(quiztype) {
+    this.quizObject[quiztype].answers = {};
   }
 
   getUserScoresFromDB() {

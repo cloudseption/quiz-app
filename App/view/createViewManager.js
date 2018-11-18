@@ -159,6 +159,7 @@ class CreateViewManager {
       let questionText = questionObject[i].children[1].children[0].value;
       questionsList.push(questionText);
     }
+    console.log("getQuestionsFromView", questionsList);
     return questionsList;
   }
 
