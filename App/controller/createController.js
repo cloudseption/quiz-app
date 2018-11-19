@@ -4,11 +4,15 @@ class CreateController {
   jsButtonAction() {
     dataManager.setCurrentQuizType("JavaScript");
     createViewManager.enableButtons();
+    createViewManager.removeChildren($(questions));
+    createViewManager.generateQuestionsFromLocalStorage();
   }
 
   javaButtonAction() {
     dataManager.setCurrentQuizType("Java");
     createViewManager.enableButtons();
+    createViewManager.removeChildren($(questions));
+    createViewManager.generateQuestionsFromLocalStorage();
   }
 
   addButtonAction() {

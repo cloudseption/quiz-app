@@ -30,7 +30,7 @@ class HomeViewManager {
   }
 }
 
-let homeViewManager = new HomeViewManager(dataManager.getUserScores());
+let homeViewManager = new HomeViewManager(dataManager.getUserScoresFromDB());
 
 $(document).ready(function() {
   homeViewManager.generateScoresTable();

@@ -44,6 +44,30 @@ class DataManager {
     }
   }
 
+  getQuestionsFromDB() {
+    let url = this.api + "/questions";
+    let quizType = this.currentQuizType;
+
+    $(document).ready(function() {
+      console.log("DOM ready!");
+      $.ajax({
+        type: "GET",
+        url: url,
+        success: function(data) {
+          console.log("Get success");
+        }
+      })
+        .done(data => {
+          console.log(data);
+          return data;
+        })
+        .then(data => {
+          localStorage.setItem(quizType, JSON.stringify(data));
+        });
+      return false;
+    });
+  }
+
   postQuestion(
     receivedQuestion,
     receivedAnswers,
@@ -84,12 +108,18 @@ class DataManager {
     $.ajax({
       type: "GET",
       url: scoreEndPoint,
-      headers: { AppToken: "successToken", Userid: "jasonhuang16@hotmail.com" }
+      data: { AppToken: "successToken", Userid: "jasonhuang16@hotmail.com" }
     }).then(function(data) {
       console.log("get success data: ", data);
       responseObject = data;
     });
     return responseObject;
+  }
+
+  setLocalStorageQuestions(data) {}
+
+  getLocalStorageQuestions() {
+    console.log(localStorage.getItem(this.currentQuizType));
   }
 
   getCurrentQuizType() {

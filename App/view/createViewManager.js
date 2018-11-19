@@ -1,6 +1,22 @@
 class CreateViewManager {
   constructor() {}
 
+  generateQuestionsFromLocalStorage() {
+    console.log(localStorage);
+    let quizType = dataManager.getCurrentQuizType();
+    let myQuestion = JSON.parse(localStorage.getItem(quizType));
+    console.log(myQuestion);
+    let answers = [];
+    myQuestion.questions.forEach(element => {
+      answers.push(element.answer1);
+      answers.push(element.answer2);
+      answers.push(element.answer3);
+      answers.push(element.answer4);
+      this.generateQuestion(element.question, answers);
+      answers = [];
+    });
+  }
+
   generateQuestion(question, answers) {
     let latestQuestionID = "";
     let latestQuestion = "";
@@ -193,6 +209,11 @@ class CreateViewManager {
       .remove();
   }
 
+  removeChildren(element) {
+    $(element)
+      .children()
+      .remove();
+  }
   enableButtons() {
     document.getElementById("addButton").disabled = false;
     document.getElementById("saveButton").disabled = false;
@@ -200,3 +221,9 @@ class CreateViewManager {
 }
 
 let createViewManager = new CreateViewManager();
+
+$(document).ready(function() {
+  dataManager.setCurrentQuizType("JavaScript");
+  console.log("current quiz", dataManager.getCurrentQuizType());
+  dataManager.getQuestionsFromDB();
+});
