@@ -15,21 +15,16 @@ class DataManager {
         answers: {}
       }
     };
-    this.userQuizScores = [
-      {
-        QuizType: "JavaScript",
-        QuizCreator: "testuser@hotmail.com",
-        Score: "100"
-      },
-      {
-        QuizType: "JavaScript",
-        QuizCreator: "testuser2@hotmail.com",
-        Score: "90"
-      }
-    ];
+    this.userQuizScores = {
+      QuizType: "",
+      QuizCreator: "",
+      Score: 0
+    };
+
     this.userObject = {
       score: 0
     };
+
     this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
   }
 
@@ -90,6 +85,35 @@ class DataManager {
         .then(data => {
           localStorage.setItem("storage", JSON.stringify(data));
         });
+      return false;
+    });
+  }
+
+  postCurrentQuizScore() {
+    let url = this.api + "/user/score";
+    let quizType = this.userQuizScores["QuizType"];
+    let quizCreator = this.userQuizScores["QuizCreator"];
+    let score = Math.round(this.getUserScore() * 100);
+    let quizId = Math.floor(Math.random() * 10000000);
+
+    console.log("Posting my score...", quizId, quizType, quizCreator, score);
+    $(document).ready(function() {
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+          QuizID: quizId.toString(),
+          QuizType: quizType,
+          QuizCreator: quizCreator,
+          Score: score,
+          QuizTaker: "jasonhuang16@hotmail.com"
+        },
+        success: function() {
+          console.log("success posting");
+        }
+      }).then(data => {
+        console.log("Success - data:", JSON.stringify(data));
+      });
       return false;
     });
   }
@@ -172,6 +196,15 @@ class DataManager {
   getUserScore() {
     return this.userObject.score;
   }
+
+  setCurrentQuizCreatorForScores(rowElement) {
+    let creator = rowElement.children[0].innerHTML;
+    let quizType = rowElement.children[1].innerHTML;
+    this.userQuizScores["QuizCreator"] = creator;
+    this.userQuizScores["QuizType"] = quizType;
+    this.userQuizScores["Scores"] = this.userObject["score"];
+  }
+
   setUserScore(scoreInDecimal) {
     this.userObject.score = scoreInDecimal;
   }

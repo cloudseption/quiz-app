@@ -9,6 +9,7 @@ class TakeController {
       this.checkUserAnswers(takeViewManager.getUserAnswers());
       takeViewManager.setModalScore();
       takeViewManager.setScoreInModal(dataManager.getUserScore());
+      dataManager.postCurrentQuizScore();
     } else {
       takeViewManager.setModalError();
     }
@@ -22,6 +23,7 @@ class TakeController {
   }
 
   rowClickAction(rowElement) {
+    dataManager.setCurrentQuizCreatorForScores(rowElement);
     takeViewManager.getQuestionsFromThisElement(rowElement);
   }
 
