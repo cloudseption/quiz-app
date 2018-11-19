@@ -278,7 +278,7 @@ class TakeViewManager {
   setScoreInModal(score) {
     let scoreElement = document.getElementById("score");
     let percent = score * 100;
-    scoreElement.innerHTML = percent + "%";
+    scoreElement.innerHTML = Math.round(percent) + "%";
   }
 
   getScoreModal(score) {
