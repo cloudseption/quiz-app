@@ -29,7 +29,14 @@ class TakeViewManager {
   }
 
   getQuestionsFromThisElement(rowElement) {
-    console.log(rowElement);
+    let creator = rowElement.children[0].innerHTML;
+    let quizType = rowElement.children[1].innerHTML;
+    let questionsObject = JSON.parse(localStorage.getItem("storage"));
+    questionsObject.questions.forEach(question => {
+      if (question.quizType == quizType && question.userId == creator) {
+        console.log(question);
+      }
+    });
   }
 
   generateFromDatabaseObject() {
