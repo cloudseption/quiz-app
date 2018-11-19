@@ -3,10 +3,12 @@ class CreateController {
 
   jsButtonAction() {
     dataManager.setCurrentQuizType("JavaScript");
+    createViewManager.enableButtons();
   }
 
   javaButtonAction() {
     dataManager.setCurrentQuizType("Java");
+    createViewManager.enableButtons();
   }
 
   addButtonAction() {
@@ -23,11 +25,8 @@ class CreateController {
       quizType,
       createViewManager.getQuestionsFromView()
     );
-    console.log(dataManager.getQuizObject);
-    // dataManager.setAnswers(getAnswersFromView());
-    // dataManager.setDifficulty(getDifficultyFromView());
-    // dataManager.setLocalStorage();
-    // dataManager.populateQuestionsTable();
+    dataManager.setAnswers(quizType, createViewManager.getAnswersFromView());
+    dataManager.populateQuestionsTable();
   }
 }
 

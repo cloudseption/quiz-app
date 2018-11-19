@@ -1,7 +1,5 @@
 class CreateViewManager {
-  constructor() {
-    let self = this;
-  }
+  constructor() {}
 
   generateQuestion(question, answers) {
     let latestQuestionID = "";
@@ -193,6 +191,11 @@ class CreateViewManager {
     $(element)
       .parent()
       .remove();
+  }
+
+  enableButtons() {
+    document.getElementById("addButton").disabled = false;
+    document.getElementById("saveButton").disabled = false;
   }
 }
 
