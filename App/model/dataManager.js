@@ -62,7 +62,7 @@ class DataManager {
           return data;
         })
         .then(data => {
-          localStorage.setItem(quizType, JSON.stringify(data));
+          localStorage.setItem("storage", JSON.stringify(data));
         });
       return false;
     });
@@ -97,6 +97,9 @@ class DataManager {
         success: function() {
           console.log("success posting");
         }
+      }).then(data => {
+        console.log("post questions", quizType);
+        //localStorage.setItem("storage", JSON.stringify(data));
       });
       return false;
     });
@@ -119,7 +122,7 @@ class DataManager {
   setLocalStorageQuestions(data) {}
 
   getLocalStorageQuestions() {
-    console.log(localStorage.getItem(this.currentQuizType));
+    console.log(localStorage.getItem("storage"));
   }
 
   getCurrentQuizType() {

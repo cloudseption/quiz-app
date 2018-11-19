@@ -10,6 +10,7 @@ class CreateController {
 
   javaButtonAction() {
     dataManager.setCurrentQuizType("Java");
+    console.log("java click", dataManager.getCurrentQuizType());
     createViewManager.enableButtons();
     createViewManager.removeChildren($(questions));
     createViewManager.generateQuestionsFromLocalStorage();

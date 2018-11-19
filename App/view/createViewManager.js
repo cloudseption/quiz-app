@@ -4,15 +4,16 @@ class CreateViewManager {
   generateQuestionsFromLocalStorage() {
     console.log(localStorage);
     let quizType = dataManager.getCurrentQuizType();
-    let myQuestion = JSON.parse(localStorage.getItem(quizType));
-    console.log(myQuestion);
+    let myQuestion = JSON.parse(localStorage.getItem("storage"));
     let answers = [];
     myQuestion.questions.forEach(element => {
-      answers.push(element.answer1);
-      answers.push(element.answer2);
-      answers.push(element.answer3);
-      answers.push(element.answer4);
-      this.generateQuestion(element.question, answers);
+      if (element.quizType == quizType) {
+        answers.push(element.answer1);
+        answers.push(element.answer2);
+        answers.push(element.answer3);
+        answers.push(element.answer4);
+        this.generateQuestion(element.question, answers);
+      }
       answers = [];
     });
   }
