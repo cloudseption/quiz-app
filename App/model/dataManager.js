@@ -1,8 +1,8 @@
 class DataManager {
   constructor() {
     console.log("Constructing dataManager");
-
-    this.user = "jasonhuang16@hotmail.com";
+    this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
+    this.user = inQuizite.email;
     this.currentQuizType;
     this.quizTypesList = ["JavaScript", "Java"];
     this.quizObject = {
@@ -25,7 +25,7 @@ class DataManager {
       score: 0
     };
 
-    this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
+    this.userScoreAverages = [];
   }
 
   populateQuestionsTable() {
@@ -95,6 +95,7 @@ class DataManager {
     let quizCreator = this.userQuizScores["QuizCreator"];
     let score = Math.round(this.getUserScore() * 100);
     let quizId = Math.floor(Math.random() * 10000000);
+    let quizTaker = this.getCurrentUser();
 
     console.log("Posting my score...", quizId, quizType, quizCreator, score);
     $(document).ready(function() {
@@ -106,7 +107,7 @@ class DataManager {
           QuizType: quizType,
           QuizCreator: quizCreator,
           Score: score,
-          QuizTaker: "jasonhuang16@hotmail.com"
+          QuizTaker: quizTaker
         },
         success: function() {
           console.log("success posting");
@@ -157,16 +158,21 @@ class DataManager {
 
   getUserScoresFromDB() {
     let scoreEndPoint = this.api + "/user/score/";
-    let responseObject = [];
+    let user = this.getCurrentUser();
+    console.log("Sending User: ", user);
     $.ajax({
       type: "GET",
       url: scoreEndPoint,
-      data: { AppToken: "successToken", Userid: "jasontest" }
-    }).then(function(data) {
-      console.log("get success data: ", data);
-      responseObject = data;
-    });
-    return responseObject;
+      data: { AppToken: "successToken", Userid: user }
+    })
+      .then(data => {
+        console.log("get success data: ", data);
+        this.setUserScoreAverage(data);
+      })
+      .then(() => {
+        console.log("sending scores: ", this.userScoreAverages);
+        homeViewManager.generateScoresTable(this.userScoreAverages);
+      });
   }
 
   getLocalStorageQuestions() {
@@ -179,6 +185,10 @@ class DataManager {
   getQuizTypes() {
     console.log(this.quizTypesList);
     return this.quizTypesList;
+  }
+
+  getUserScoreAverages() {
+    return this.userScoreAverages;
   }
 
   getCurrentQuizType() {
@@ -195,6 +205,11 @@ class DataManager {
 
   getUserScore() {
     return this.userObject.score;
+  }
+
+  setUserScoreAverage(data) {
+    this.userScoreAverages = data;
+    console.log("Setting user score averages", this.userScoreAverages);
   }
 
   setCurrentQuizCreatorForScores(rowElement) {

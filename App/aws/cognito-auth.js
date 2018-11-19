@@ -4,7 +4,7 @@ var inQuizite = window.inQuizite || {};
 
 (function scopeWrapper($) {
   //The index path in AWS s3 Bucket
-  let signinUrl = "../../index.html";
+  let signinUrl = "./App/index.html";
 
   let poolData = {
     UserPoolId: _config.cognito.userPoolId,

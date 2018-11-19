@@ -1,7 +1,6 @@
 class HomeViewManager {
-  constructor(data) {
+  constructor() {
     console.log("Constructing homeViewManager");
-    this.data = data;
   }
 
   displayUserName() {
@@ -12,8 +11,8 @@ class HomeViewManager {
     console.log(this.data);
   }
 
-  generateScoresTable() {
-    let scores = this.data;
+  generateScoresTable(data) {
+    let scores = data;
     let trElement;
     let tdElement;
     let tableBodyElement = document.getElementById("scoreTableBody");
@@ -34,9 +33,9 @@ class HomeViewManager {
   }
 }
 
-let homeViewManager = new HomeViewManager(dataManager.getUserScoresFromDB());
+let homeViewManager = new HomeViewManager();
 
 $(document).ready(function() {
   homeViewManager.displayUserName();
-  homeViewManager.generateScoresTable();
+  dataManager.getUserScoresFromDB();
 });
