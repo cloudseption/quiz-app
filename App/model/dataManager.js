@@ -2,8 +2,9 @@ class DataManager {
   constructor() {
     console.log("Constructing dataManager");
 
-    this.user = "getUser()";
+    this.user = "jasonhuang16@hotmail.com";
     this.currentQuizType;
+    this.quizTypesList = ["JavaScript", "Java"];
     this.quizObject = {
       JavaScript: {
         questions: [],
@@ -44,9 +45,31 @@ class DataManager {
     }
   }
 
+  getAllUsersFromDB() {
+    let url = this.api + "/users";
+
+    $(document).ready(function() {
+      console.log("DOM ready!");
+      $.ajax({
+        type: "GET",
+        url: url,
+        success: function(data) {
+          console.log("Get success");
+        }
+      })
+        .done(data => {
+          console.log(data);
+          return data;
+        })
+        .then(data => {
+          localStorage.setItem("users", JSON.stringify(data));
+        });
+      return false;
+    });
+  }
+
   getQuestionsFromDB() {
     let url = this.api + "/questions";
-    let quizType = this.currentQuizType;
 
     $(document).ready(function() {
       console.log("DOM ready!");
@@ -111,7 +134,7 @@ class DataManager {
     $.ajax({
       type: "GET",
       url: scoreEndPoint,
-      data: { AppToken: "successToken", Userid: "jasonhuang16@hotmail.com" }
+      data: { AppToken: "successToken", Userid: "jasontest" }
     }).then(function(data) {
       console.log("get success data: ", data);
       responseObject = data;
@@ -119,10 +142,16 @@ class DataManager {
     return responseObject;
   }
 
-  setLocalStorageQuestions(data) {}
-
   getLocalStorageQuestions() {
     console.log(localStorage.getItem("storage"));
+  }
+
+  getCurrentUser() {
+    return this.user;
+  }
+  getQuizTypes() {
+    console.log(this.quizTypesList);
+    return this.quizTypesList;
   }
 
   getCurrentQuizType() {

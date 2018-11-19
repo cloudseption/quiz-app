@@ -5,9 +5,13 @@ class CreateViewManager {
     console.log(localStorage);
     let quizType = dataManager.getCurrentQuizType();
     let myQuestion = JSON.parse(localStorage.getItem("storage"));
+    console.log(myQuestion);
     let answers = [];
     myQuestion.questions.forEach(element => {
-      if (element.quizType == quizType) {
+      if (
+        element.quizType == quizType &&
+        element.userId == dataManager.getCurrentUser()
+      ) {
         answers.push(element.answer1);
         answers.push(element.answer2);
         answers.push(element.answer3);

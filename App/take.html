@@ -10,8 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
-    <script src="./aws/aws-cognito-sdk.min.js"></script>
-    <script src="./aws/amazon-cognito-identity.min.js"></script>
+    <script src="./aws/sdk/aws-cognito-sdk.min.js"></script>
+    <script src="./aws/sdk/amazon-cognito-identity.min.js"></script>
     <script src="./aws/config.js"></script>
     <script src="./aws/cognito-auth.js"></script>
     <script src="model/dataManager.js"></script>
@@ -26,6 +26,11 @@
           <a class="navbar-brand" href="./create.html">Quiz Creator</a>
           <a class="navbar-brand" href="./take.html">Take a Quiz</a>
         </div>
+        <ul class="nav navbar-nav" style="float: right">
+          <li style="font-size: 20px">
+            <a href="#" onclick="createController.signOutAction()">Sign Out</a>
+          </li>
+        </ul>
       </div>
     </nav>
 
@@ -33,7 +38,17 @@
       <h1 id="welcomeUser" style="text-align: center;color: whitesmoke">
         Take a quiz
       </h1>
-      <div class="jumbotron" style="background-color: #BED7D1"></div>
+      <div class="jumbotron" style="background-color: #BED7D1">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Quiz Creator</th>
+              <th>Quiz Type</th>
+            </tr>
+          </thead>
+          <tbody id="quizTable"></tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>

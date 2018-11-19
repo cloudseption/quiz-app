@@ -4,6 +4,10 @@ class HomeViewManager {
     this.data = data;
   }
 
+  displayUserName() {
+    $("#welcomeUser").html("Welcome, " + inQuizite.email);
+  }
+
   displayUserScores() {
     console.log(this.data);
   }
@@ -33,5 +37,6 @@ class HomeViewManager {
 let homeViewManager = new HomeViewManager(dataManager.getUserScoresFromDB());
 
 $(document).ready(function() {
+  homeViewManager.displayUserName();
   homeViewManager.generateScoresTable();
 });

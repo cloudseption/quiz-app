@@ -33,6 +33,13 @@ class CreateController {
     dataManager.setAnswers(quizType, createViewManager.getAnswersFromView());
     dataManager.populateQuestionsTable();
   }
+
+  signOutAction() {
+    console.log("Signing out");
+    inQuizite.signOut();
+    alert("You have been signed out.");
+    window.location = "../../index.html";
+  }
 }
 
 let createController = new CreateController();
