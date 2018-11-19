@@ -27,6 +27,9 @@ class DataManager {
         Score: "90"
       }
     ];
+    this.userObject = {
+      score: 0
+    };
     this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
   }
 
@@ -164,6 +167,13 @@ class DataManager {
 
   getQuizObject() {
     return this.quizObject;
+  }
+
+  getUserScore() {
+    return this.userObject.score;
+  }
+  setUserScore(scoreInDecimal) {
+    this.userObject.score = scoreInDecimal;
   }
 
   setCurrentQuizType(qt) {

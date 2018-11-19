@@ -7,7 +7,6 @@ class TakeViewManager {
     let tdElement;
     let tableBodyElement = document.getElementById("quizTable");
     $("#quizTable").empty();
-
     console.log("generateTableOfQuizzes");
     usersObject.users.forEach(u => {
       if (u["userId"] != dataManager.getCurrentUser()) {
@@ -32,30 +31,23 @@ class TakeViewManager {
     let creator = rowElement.children[0].innerHTML;
     let quizType = rowElement.children[1].innerHTML;
     let questionsObject = JSON.parse(localStorage.getItem("storage"));
-    questionsObject.questions.forEach(question => {
-      if (question.quizType == quizType && question.userId == creator) {
-        console.log(question);
+    let answers = [];
+    let count = 0;
+    let tempid = "q_";
+    $("#quizTableMain").hide();
+    console.log(questionsObject.questions.length);
+    questionsObject.questions.forEach(element => {
+      if (element.quizType == quizType && element.userId == creator) {
+        answers.push(element.answer1);
+        answers.push(element.answer2);
+        answers.push(element.answer3);
+        answers.push(element.answer4);
+        this.generateQuestion(tempid + count, element.question, answers);
+        count++;
       }
+      answers = [];
     });
-  }
-
-  generateFromDatabaseObject() {
-    let dbQuestions = getDbObjectQuestions();
-    let dbAnswers = getDbObjectAnswers();
-    let dbIds = getDbIds();
-    let dbCount = dbQuestions.length;
-
-    if (dbCount == 0) {
-      $("#defaultHeader").html("<h1>No questions</h1>");
-    } else {
-      for (let i = 0; i < dbCount; i++) {
-        if (difficulty == dbDiffs[i]) {
-          generateQuestion(dbIds[i], dbQuestions[i], dbAnswers[i]);
-        } else {
-          $("#" + dbIds[i]).remove();
-        }
-      }
-    }
+    this.generateSubmitButton();
   }
 
   generateQuestion(id, question, answers) {
@@ -66,10 +58,12 @@ class TakeViewManager {
     let newQuestion = document.createElement("div");
 
     newQuestion.setAttribute("id", latestQuestionID);
-    newQuestion.style.border = "1px solid black";
+    newQuestion.style.border = "1px solid grey";
+    newQuestion.style.borderRadius = "16px";
     newQuestion.style.padding = "20px";
     newQuestion.style.margin = "20px";
-    generateQuestionChildren(
+    newQuestion.style.backgroundColor = "#82beb0";
+    this.generateQuestionChildren(
       newQuestion,
       latestQuestionID,
       questionText,
@@ -106,7 +100,7 @@ class TakeViewManager {
     newQuestion.appendChild(qlabel);
     newQuestion.appendChild(qbox);
     newQuestion.appendChild(alabel);
-    generateAnswerBoxChildren(abox, latestQuestionID, answerList);
+    this.generateAnswerBoxChildren(abox, latestQuestionID, answerList);
     newQuestion.appendChild(abox);
   }
 
@@ -122,7 +116,10 @@ class TakeViewManager {
         "class",
         "form-check-input" + latestQuestionID + "a"
       );
-      checkboxElement.setAttribute("onchange", "cbChange(this)");
+      checkboxElement.setAttribute(
+        "onchange",
+        "takeViewManager.cbChange(this)"
+      );
       checkboxElement.style.width = "25px";
       checkboxElement.style.height = "25px";
       labelElement.setAttribute("class", "form-check-label");
@@ -143,12 +140,14 @@ class TakeViewManager {
     //data-toggle="modal" data-target="#scoreModal"
     let buttonDiv = document.getElementById("btnDIV");
     let submitButton = document.createElement("button");
-    buttonDiv.appendChild(getScoreModal());
-    buttonDiv.appendChild(getErrorModal());
+    let scoreModal = this.getScoreModal();
+    let errModal = this.getErrorModal();
+    buttonDiv.appendChild(scoreModal);
+    buttonDiv.appendChild(errModal);
     submitButton.setAttribute("id", "submit");
     submitButton.setAttribute("type", "button");
     submitButton.setAttribute("class", "btn btn-success btn-lg");
-    submitButton.setAttribute("onclick", "submitAnswers()");
+    submitButton.setAttribute("onclick", "takeController.submitAnswers()");
     submitButton.setAttribute("data-toggle", "modal");
     submitButton.innerHTML = "Submit";
     buttonDiv.appendChild(submitButton);
@@ -194,8 +193,6 @@ class TakeViewManager {
       if (userAnswer == ans) {
         qdivIdIndex = qdivId + i;
         $("#" + qdivIdIndex).css("background-color", "red");
-        qAnsElement = document.getElementById(qAnsBoxId);
-        qAnsElement.append(newDiv);
       }
     }
   }
@@ -209,7 +206,6 @@ class TakeViewManager {
     let answer = "";
     console.log(questionObject);
     for (let i = 0; i < questionCount; i++) {
-      answersList = [];
       for (let j = 0; j < 4; j++) {
         if (questionObject[i].children[3].children[j].children[0].checked) {
           answer =
@@ -245,7 +241,6 @@ class TakeViewManager {
     let count = 0;
     let pass = false;
     for (let i = 0; i < questionCount; i++) {
-      answersList = [];
       for (let j = 0; j < 4; j++) {
         if (questionObject[i].children[3].children[j].children[0].checked) {
           count = count + 1;
