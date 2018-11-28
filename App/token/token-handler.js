@@ -19,7 +19,7 @@
  */
 function createBadgeBookTokenHandler() {
   // Set these
-  const CLIENT_PUBLIC_KEY = `cVQ3s9KTT2hxv_Lz-nQ2zi19p4EFSGF2vTqTfDy3Teg`;
+  const CLIENT_PUBLIC_KEY = `SwW4Q-iZTV8fVOb0RqxobFB-04qKdCdeE8-eNKgK36w`;
   const BADGEBOOK_TOKEN_URL = `https://polar-citadel-36387.herokuapp.com/auth/token.html`;
   const TOKEN_COOKIE_NAME = `authorization`;
 
@@ -28,9 +28,15 @@ function createBadgeBookTokenHandler() {
     `${TOKEN_COOKIE_NAME}\\s*=\\s*[\\w\\d\\.\\+-]*`
   );
 
+  const validTokenHandlers = [];
+
   /********************************************
    *              EVENT HANDLERS              *
    ********************************************/
+
+  function registerValidTokenHandler(callback) {
+    validTokenHandlers.push(callback);
+  }
   // Put your custom functionality in these.
 
   /*
@@ -38,9 +44,12 @@ function createBadgeBookTokenHandler() {
    */
   function handleValidToken(claims) {
     console.log(`User has a valid token`);
-
+    validTokenHandlers.forEach(handler => {
+      handler(claims);
+    });
     // Example:
     // window.sessionStorage.setItem('badgebook-user-id', claims.userId);
+    window.location.href = "./App/home.html";
   }
 
   /*
@@ -48,9 +57,9 @@ function createBadgeBookTokenHandler() {
    */
   function handleNoToken() {
     console.log("No token found");
-
     // Example:
     // window.sessionStorage.deleteItem('badgebook-user-id', claims.userId);
+    window.location.href = "../../index.html";
   }
 
   /*
@@ -117,7 +126,7 @@ function createBadgeBookTokenHandler() {
   /********************************************
    *       MAIN TOKEN RETRIEVAL SCRIPT        *
    ********************************************/
-  (function onPageLoad() {
+  function onPageLoad() {
     /**
      * Pulls tokens passed back from badgebook via query strings and stores
      * them in cookies.
@@ -156,7 +165,7 @@ function createBadgeBookTokenHandler() {
 
     extractTokenFromQueryString();
     checkCurrentToken();
-  })();
+  }
 
   /**
    * Helper function. Saves a cookie.
