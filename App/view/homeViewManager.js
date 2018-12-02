@@ -4,7 +4,7 @@ class HomeViewManager {
   }
 
   displayUserName() {
-    $("#welcomeUser").html("Welcome, " + inQuizite.email);
+    $("#welcomeUser").html("Welcome, " + dataManager.getCurrentUserName());
   }
 
   displayUserScores() {

@@ -7,7 +7,19 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     />
-    <script src="./App/token/token-handler.js"></script>
+    <script src="./token/token-handler.js"></script>
+    <script>
+      let validTokenHandler = () => {
+        console.log("Valid token");
+        // window.location.href = "./create.html";
+      };
+      let noTokenHandler = () => {
+        window.location.href = "../index.html";
+      };
+      badgeBookTokenHandler.registerValidTokenHandler(validTokenHandler);
+      badgeBookTokenHandler.registerNoTokenHandler(noTokenHandler);
+      badgeBookTokenHandler.onPageLoad();
+    </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
@@ -15,9 +27,9 @@
     <script src="./aws/sdk/amazon-cognito-identity.min.js"></script>
     <script src="./aws/config.js"></script>
     <script src="./aws/cognito-auth.js"></script>
-    <script src="model/dataManager.js"></script>
-    <script src="view/createViewManager.js"></script>
-    <script src="controller/createController.js"></script>
+    <script src="./model/dataManager.js"></script>
+    <script src="./view/createViewManager.js"></script>
+    <script src="./controller/createController.js"></script>
   </head>
   <body style="background-color:#82beb0 ">
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -29,7 +41,7 @@
         </div>
         <ul class="nav navbar-nav" style="float: right">
           <li style="font-size: 20px">
-            <a href="#" onclick="badgeBookTokenHandler.clearAccessToken()"
+            <a href="#" onclick="badgeBookTokenHandler.handleExpiredToken()"
               >Sign Out</a
             >
           </li>

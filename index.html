@@ -6,7 +6,17 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="./App/token/token-handler.js"></script>
         <script>
-            
+            let validTokenHandler = () => {
+                console.log("Valid token, redirecting to home");
+                window.location.href = "./App/home.html";
+            }
+            let noTokenHandler = () => {
+                console.log("No Token"); 
+                // window.location.href = "./index.html";
+            }
+            badgeBookTokenHandler.registerValidTokenHandler(validTokenHandler); 
+            badgeBookTokenHandler.registerNoTokenHandler(noTokenHandler);
+            badgeBookTokenHandler.onPageLoad();
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

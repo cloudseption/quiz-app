@@ -18,6 +18,7 @@
  * - Set constants.
  */
 function createBadgeBookTokenHandler() {
+  console.log("Creating BadgeBook Token Handler");
   // Set these
   const CLIENT_PUBLIC_KEY = `SwW4Q-iZTV8fVOb0RqxobFB-04qKdCdeE8-eNKgK36w`;
   const BADGEBOOK_TOKEN_URL = `https://polar-citadel-36387.herokuapp.com/auth/token.html`;
@@ -29,27 +30,34 @@ function createBadgeBookTokenHandler() {
   );
 
   const validTokenHandlers = [];
-
+  const noTokenHandlers = [];
   /********************************************
    *              EVENT HANDLERS              *
    ********************************************/
 
   function registerValidTokenHandler(callback) {
+    console.log("Registering valid token handler:", callback);
     validTokenHandlers.push(callback);
   }
-  // Put your custom functionality in these.
 
+  function registerNoTokenHandler(callback) {
+    console.log("Registering no token handler: ", callback);
+    noTokenHandlers.push(callback);
+  }
+  // Put your custom functionality in these.s
   /*
    * Called when a valid token is detected.
    */
   function handleValidToken(claims) {
     console.log(`User has a valid token`);
+    window.sessionStorage.setItem("badgebook-user-id", claims.userId);
+    window.sessionStorage.setItem("badgebook-user-name", claims.name);
+    window.sessionStorage.setItem("badgebook-user-email", claims.email);
     validTokenHandlers.forEach(handler => {
       handler(claims);
+      console.log(claims);
     });
     // Example:
-    // window.sessionStorage.setItem('badgebook-user-id', claims.userId);
-    window.location.href = "./App/home.html";
   }
 
   /*
@@ -57,9 +65,13 @@ function createBadgeBookTokenHandler() {
    */
   function handleNoToken() {
     console.log("No token found");
+    window.sessionStorage.deleteItem("badgebook-user-id", claims.userId);
+    window.sessionStorage.deleteItem("badgebook-user-name", claims.name);
+    window.sessionStorage.deleteItem("badgebook-user-email", claims.email);
+    noTokenHandlers.forEach(handler => {
+      handler();
+    });
     // Example:
-    // window.sessionStorage.deleteItem('badgebook-user-id', claims.userId);
-    window.location.href = "../../index.html";
   }
 
   /*
@@ -67,6 +79,9 @@ function createBadgeBookTokenHandler() {
    */
   function handleExpiredToken() {
     console.log(`User token is expired`);
+    window.sessionStorage.deleteItem("badgebook-user-id", claims.userId);
+    window.sessionStorage.deleteItem("badgebook-user-name", claims.name);
+    window.sessionStorage.deleteItem("badgebook-user-email", claims.email);
     clearAccessToken();
     loginWithBadgeBook();
   }
@@ -127,6 +142,7 @@ function createBadgeBookTokenHandler() {
    *       MAIN TOKEN RETRIEVAL SCRIPT        *
    ********************************************/
   function onPageLoad() {
+    console.log("OnPageLoad Check");
     /**
      * Pulls tokens passed back from badgebook via query strings and stores
      * them in cookies.
@@ -152,13 +168,17 @@ function createBadgeBookTokenHandler() {
         if (token) {
           if ((token ? claims.exp : 0) > Date.now()) {
             handleValidToken(claims);
+            console.log("Handle valid token");
           } else {
             handleExpiredToken();
+            console.log("Handle expired token");
           }
         } else {
           handleNoToken();
+          console.log("Handle no token");
         }
       } catch (err) {
+        console.log(err);
         handleNoToken();
       }
     }
@@ -183,7 +203,11 @@ function createBadgeBookTokenHandler() {
     isBadgeBookUserLoggedIn: isBadgeBookUserLoggedIn,
     getCurrentToken: getCurrentToken,
     getCurrentUserClaims: getCurrentUserClaims,
-    clearAccessToken: clearAccessToken
+    handleExpiredToken: handleExpiredToken,
+    clearAccessToken: clearAccessToken,
+    registerValidTokenHandler: registerValidTokenHandler,
+    registerNoTokenHandler: registerNoTokenHandler,
+    onPageLoad: onPageLoad
   });
 }
 

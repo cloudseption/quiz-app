@@ -2,7 +2,9 @@ class DataManager {
   constructor() {
     console.log("Constructing dataManager");
     this.api = "https://ziatyh0y7a.execute-api.us-west-2.amazonaws.com/1";
-    this.user = inQuizite.email;
+    this.user = window.sessionStorage.getItem("badgebook-user-id");
+    this.userEmail = window.sessionStorage.getItem("badgebook-user-email");
+    this.userName = window.sessionStorage.getItem("badgebook-user-name");
     this.currentQuizType;
     this.quizTypesList = ["JavaScript", "Java"];
     this.quizObject = {
@@ -182,6 +184,15 @@ class DataManager {
   getCurrentUser() {
     return this.user;
   }
+
+  getCurrentUserName() {
+    return this.userName;
+  }
+
+  getCurrentUserEmail() {
+    return this.userEmail;
+  }
+
   getQuizTypes() {
     console.log(this.quizTypesList);
     return this.quizTypesList;
