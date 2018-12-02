@@ -8,9 +8,10 @@ class CreateViewManager {
     console.log(myQuestion);
     let answers = [];
     myQuestion.questions.forEach(element => {
+      console.log("Element", element);
       if (
         element.quizType == quizType &&
-        element.userId == dataManager.getCurrentUser()
+        element.userId == dataManager.getCurrentUserEmail()
       ) {
         answers.push(element.answer1);
         answers.push(element.answer2);
@@ -206,6 +207,12 @@ class CreateViewManager {
       answersObject[i] = answersList;
     }
     return answersObject;
+  }
+
+  changeCreateQuizHeader(quizTypeText) {
+    let createElement = document.getElementById("welcomeUser");
+    let newText = "Create a " + quizTypeText + " quiz!";
+    createElement.innerHTML = newText;
   }
 
   removeQuestion(element) {

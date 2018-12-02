@@ -3,6 +3,7 @@ class CreateController {
 
   jsButtonAction() {
     dataManager.setCurrentQuizType("JavaScript");
+    createViewManager.changeCreateQuizHeader(dataManager.getCurrentQuizType());
     createViewManager.enableButtons();
     createViewManager.removeChildren($(questions));
     createViewManager.generateQuestionsFromLocalStorage();
@@ -10,6 +11,7 @@ class CreateController {
 
   javaButtonAction() {
     dataManager.setCurrentQuizType("Java");
+    createViewManager.changeCreateQuizHeader(dataManager.getCurrentQuizType());
     console.log("java click", dataManager.getCurrentQuizType());
     createViewManager.enableButtons();
     createViewManager.removeChildren($(questions));

@@ -65,9 +65,6 @@ function createBadgeBookTokenHandler() {
    */
   function handleNoToken() {
     console.log("No token found");
-    window.sessionStorage.deleteItem("badgebook-user-id", claims.userId);
-    window.sessionStorage.deleteItem("badgebook-user-name", claims.name);
-    window.sessionStorage.deleteItem("badgebook-user-email", claims.email);
     noTokenHandlers.forEach(handler => {
       handler();
     });
@@ -77,13 +74,15 @@ function createBadgeBookTokenHandler() {
   /*
    * Called when current token is expired.
    */
-  function handleExpiredToken() {
+  function handleExpiredToken(claims) {
     console.log(`User token is expired`);
-    window.sessionStorage.deleteItem("badgebook-user-id", claims.userId);
-    window.sessionStorage.deleteItem("badgebook-user-name", claims.name);
-    window.sessionStorage.deleteItem("badgebook-user-email", claims.email);
     clearAccessToken();
     loginWithBadgeBook();
+  }
+
+  function signOutAction() {
+    clearAccessToken();
+    window.location = "../index.html";
   }
 
   /********************************************
@@ -143,6 +142,7 @@ function createBadgeBookTokenHandler() {
    ********************************************/
   function onPageLoad() {
     console.log("OnPageLoad Check");
+    console.log("Cookie", document.cookie);
     /**
      * Pulls tokens passed back from badgebook via query strings and stores
      * them in cookies.
@@ -170,7 +170,7 @@ function createBadgeBookTokenHandler() {
             handleValidToken(claims);
             console.log("Handle valid token");
           } else {
-            handleExpiredToken();
+            handleExpiredToken(claims);
             console.log("Handle expired token");
           }
         } else {
@@ -202,6 +202,7 @@ function createBadgeBookTokenHandler() {
     loginWithBadgeBook: loginWithBadgeBook,
     isBadgeBookUserLoggedIn: isBadgeBookUserLoggedIn,
     getCurrentToken: getCurrentToken,
+    signOutAction: signOutAction,
     getCurrentUserClaims: getCurrentUserClaims,
     handleExpiredToken: handleExpiredToken,
     clearAccessToken: clearAccessToken,

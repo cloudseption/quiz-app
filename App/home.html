@@ -28,6 +28,9 @@
     <script src="./aws/config.js"></script>
     <script src="./aws/cognito-auth.js"></script>
     <script src="./model/dataManager.js"></script>
+    <script>
+      dataManager.postUser();
+    </script>
     <script src="./view/homeViewManager.js"></script>
     <script src="./controller/homeController.js"></script>
   </head>
@@ -41,7 +44,7 @@
         </div>
         <ul class="nav navbar-nav" style="float: right">
           <li style="font-size: 20px">
-            <a href="#" onclick="badgeBookTokenHandler.handleExpiredToken()"
+            <a href="#" onclick="badgeBookTokenHandler.signOutAction()"
               >Sign Out</a
             >
           </li>

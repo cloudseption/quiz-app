@@ -40,7 +40,7 @@ class DataManager {
         this.quizObject[this.currentQuizType].questions[i],
         this.quizObject[this.currentQuizType].answers[i],
         this.currentQuizType,
-        this.user
+        this.userEmail
       );
     }
   }
@@ -158,6 +158,27 @@ class DataManager {
     });
   }
 
+  postUser() {
+    let url = this.api + "/user";
+    let userId = this.user;
+    let userEmail = this.userEmail;
+    console.log("Post User", userId, userEmail);
+    $(document).ready(function() {
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+          userID: userId,
+          email: userEmail
+        },
+        success: function() {
+          console.log("success posting new user");
+        }
+      });
+      return false;
+    });
+  }
+
   getUserScoresFromDB() {
     let scoreEndPoint = this.api + "/user/score/";
     let user = this.getCurrentUser();
@@ -165,7 +186,7 @@ class DataManager {
     $.ajax({
       type: "GET",
       url: scoreEndPoint,
-      data: { AppToken: "successToken", Userid: user }
+      data: { AppToken: "DXykInYFcz", Userid: user }
     })
       .then(data => {
         console.log("get success data: ", data);
