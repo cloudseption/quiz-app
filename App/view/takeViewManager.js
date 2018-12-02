@@ -6,10 +6,13 @@ class TakeViewManager {
     let trElement;
     let tdElement;
     let tableBodyElement = document.getElementById("quizTable");
+    let containsOtherUsers = false;
     $("#quizTable").empty();
+    console.log(usersObject);
     console.log("generateTableOfQuizzes");
     usersObject.users.forEach(u => {
-      if (u["userId"] != dataManager.getCurrentUser()) {
+      if (u["userId"] != dataManager.getCurrentUserEmail()) {
+        containsOtherUsers = true;
         quizTypes.forEach(qt => {
           trElement = document.createElement("tr");
           trElement.addEventListener("click", function() {
@@ -25,6 +28,12 @@ class TakeViewManager {
         });
       }
     });
+    if (!containsOtherUsers) {
+      let noUserText = document.createElement("p");
+      noUserText.style.textAlign = "center";
+      noUserText.innerHTML = "Currently, there are no other users.";
+      document.getElementById("quizTableMain").appendChild(noUserText);
+    }
   }
 
   getQuestionsFromThisElement(rowElement) {
@@ -34,20 +43,32 @@ class TakeViewManager {
     let answers = [];
     let count = 0;
     let tempid = "q_";
+    let containsQuestions = false;
     $("#quizTableMain").hide();
     console.log(questionsObject.questions.length);
     questionsObject.questions.forEach(element => {
       if (element.quizType == quizType && element.userId == creator) {
+        containsQuestions = true;
         answers.push(element.answer1);
         answers.push(element.answer2);
         answers.push(element.answer3);
         answers.push(element.answer4);
         this.generateQuestion(tempid + count, element.question, answers);
         count++;
+      } else {
+        containsQuestions = false;
       }
       answers = [];
     });
-    this.generateSubmitButton();
+
+    if (!containsQuestions) {
+      let noQuestionsText = document.createElement("p");
+      noQuestionsText.style.textAlign = "center";
+      noQuestionsText.innerHTML = "This user has not created any questions!";
+      document.getElementById("jumbotronID").append(noQuestionsText);
+    } else {
+      this.generateSubmitButton();
+    }
   }
 
   generateQuestion(id, question, answers) {
