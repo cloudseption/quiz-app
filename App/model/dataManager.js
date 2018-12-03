@@ -53,6 +53,7 @@ class DataManager {
       $.ajax({
         type: "GET",
         url: url,
+        cache: false,
         success: function(data) {
           console.log("Get success");
         }
@@ -76,6 +77,7 @@ class DataManager {
       $.ajax({
         type: "GET",
         url: url,
+        cache: false,
         success: function(data) {
           console.log("Get success");
         }
@@ -92,7 +94,9 @@ class DataManager {
   }
 
   postCurrentQuizScore() {
-    let url = this.api + "/user/score";
+    let urlScore = this.api + "/user/score";
+    let urlLeaderboard = this.api + "/leaderboard";
+    let currentUser = this.user;
     let quizType = this.userQuizScores["QuizType"];
     let quizCreator = this.userQuizScores["QuizCreator"];
     let score = Math.round(this.getUserScore() * 100);
@@ -103,7 +107,7 @@ class DataManager {
     $(document).ready(function() {
       $.ajax({
         type: "POST",
-        url: url,
+        url: urlScore,
         data: {
           QuizID: quizId.toString(),
           QuizType: quizType,
@@ -112,10 +116,20 @@ class DataManager {
           QuizTaker: quizTaker
         },
         success: function() {
-          console.log("success posting");
+          console.log("success posting score");
         }
-      }).then(data => {
-        console.log("Success - data:", JSON.stringify(data));
+      }).then(() => {
+        $.ajax({
+          type: "POST",
+          url: urlLeaderboard,
+          data: {
+            userId: currentUser,
+            QuizType: quizType
+          },
+          success: function() {
+            console.log("success posting leaderboard");
+          }
+        });
       });
       return false;
     });
@@ -168,7 +182,7 @@ class DataManager {
         type: "POST",
         url: url,
         data: {
-          userID: userId,
+          userid: userId,
           email: userEmail
         },
         success: function() {
@@ -186,7 +200,13 @@ class DataManager {
     $.ajax({
       type: "GET",
       url: scoreEndPoint,
-      data: { AppToken: "DXykInYFcz", Userid: user }
+      data: { AppToken: "DXykInYFcz", Userid: user },
+      cache: false,
+      statusCode: {
+        403: function() {
+          console.log("No scores! 403");
+        }
+      }
     })
       .then(data => {
         console.log("get success data: ", data);
@@ -279,3 +299,7 @@ class DataManager {
 }
 
 let dataManager = new DataManager();
+
+$(document).ready(function() {
+  dataManager.getQuestionsFromDB();
+});

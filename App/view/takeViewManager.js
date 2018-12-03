@@ -55,8 +55,6 @@ class TakeViewManager {
         answers.push(element.answer4);
         this.generateQuestion(tempid + count, element.question, answers);
         count++;
-      } else {
-        containsQuestions = false;
       }
       answers = [];
     });

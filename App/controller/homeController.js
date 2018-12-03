@@ -11,3 +11,7 @@ class HomeController {
 }
 
 let homeController = new HomeController();
+
+$(document).ready(function() {
+  dataManager.getQuestionsFromDB();
+});

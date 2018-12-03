@@ -8,7 +8,11 @@ class HomeViewManager {
   }
 
   displayUserScores() {
-    console.log(this.data);
+    let noScoresText = document.createElement("p");
+    let jumbotronHOME = document.getElementById("jumbotronHOME");
+    noScoresText.innerHTML = "Try taking quizzes to get more scores!";
+    noScoresText.style.textAlign = "center";
+    jumbotronHOME.appendChild(noScoresText);
   }
 
   generateScoresTable(data) {
@@ -37,5 +41,6 @@ let homeViewManager = new HomeViewManager();
 
 $(document).ready(function() {
   homeViewManager.displayUserName();
+  homeViewManager.displayUserScores();
   dataManager.getUserScoresFromDB();
 });
