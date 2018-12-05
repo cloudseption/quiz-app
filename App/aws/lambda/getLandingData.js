@@ -17,9 +17,10 @@ exports.handler = (event, context, callback) => {
 
   //response JSON
   let responseObject = {};
+  let responseObjectNoUser = {};
   let landingData = [];
 
-  let headerUser = event.headers.Userid;
+  let headerUser = event.headers.userid;
   let headerAuthToken = event.headers.Authorization;
 
   console.log(event.headers);
@@ -45,6 +46,7 @@ exports.handler = (event, context, callback) => {
       quizUrl
     );
     landingData.push(landingDataObject);
+
     //gets uniques
     let quizTypes = getUniqueQuizTypesForThisUser(data, headerUser);
     console.log("quizTypes: ", quizTypes);
@@ -58,7 +60,16 @@ exports.handler = (event, context, callback) => {
 
     responseObject["request"] = requestObject;
     responseObject["landingData"] = landingData;
-    console.log(JSON.stringify(responseObject));
+    console.log("responseObject: ", JSON.stringify(responseObject));
+    if (responseObject["landingData"][0].data.length == 0) {
+      responseObject["landingData"][0].data.push("Join inQuizitive!");
+    }
+    // let noUserDataMsg = "Create or take a quiz today!";
+    // let emptyData = [];
+    // responseObjectNoUser.landingData[0].data = emptyData;
+    // responseObjectNoUser.landingData[0].data.push(noUserDataMsg);
+    // console.log(JSON.stringify("responseObjectNoUser",JSON.stringify(responseObjectNoUser)))
+
     // Response for callbacks
     let response;
 
@@ -82,24 +93,10 @@ exports.handler = (event, context, callback) => {
       }
     };
 
-    const noUserResponse = {
-      statusCode: 403,
-      body: JSON.stringify("No User Error"),
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT"
-      }
-    };
-
     if (validHeaderToken(headerAuthToken)) {
       response = successResponse;
     } else {
       response = errorResponse;
-    }
-
-    if (!validUser(getAllUniqueUsers(data), headerUser)) {
-      response = noUserResponse;
     }
 
     callback(null, response);

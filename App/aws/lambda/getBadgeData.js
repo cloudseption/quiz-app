@@ -18,7 +18,7 @@ exports.handler = (event, context, callback) => {
   let responseObject = {};
   let badgeData = [];
 
-  let headerUser = event.headers.Userid;
+  let headerUser = event.headers.userid;
   let headerAuthToken = event.headers.Authorization;
 
   //let headerQuizType = event.headers.QuizType;
